@@ -202,6 +202,7 @@ extension XMLFeedParser {
         // real-world feeds contain junk such as "[]" after the XML segment;
         // just ignore this stuff.
         guard !parseComplete, parsingError == nil else { return }
+        if XMLParser.ErrorCode.init(rawValue: (parseError as NSError).code) == .invalidCharacterError { return }
         self.parsingError = NSError(domain: parseError.localizedDescription, code: -1,
             userInfo: ["CurrentPath": currentXMLDOMPath.absoluteString])
     }
